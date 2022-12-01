@@ -8,9 +8,12 @@ const client = new Client({
   database: 'mycontacts',
 });
 
-client.connect();
+client
+  .connect()
+  .then(() => console.log('connected'))
+  .catch((err) => console.error('connection error', err.stack));
 
-exports.query = async (query) => {
-  const { rows } = await client.query(query);
+exports.query = async (query, values) => {
+  const { rows } = await client.query(query, values);
   return rows;
 };
