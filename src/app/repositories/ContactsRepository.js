@@ -6,7 +6,7 @@ class ContactsRepository {
     const rows = await db.query(`
       SELECT contacts.*, categories.name AS category_name
       FROM contacts
-      JOIN categories ON categories.id = contacts.category_id
+      LEFT JOIN categories ON categories.id = contacts.category_id
       ORDER BY contacts.name ${direction}
     `);
     return rows;
@@ -17,7 +17,7 @@ class ContactsRepository {
       `
       SELECT contacts.*, categories.name AS category_name
       FROM contacts
-      JOIN categories ON categories.id = contacts.category_id
+      LEFT JOIN categories ON categories.id = contacts.category_id
       WHERE contacts.id = $1
     `,
       [id],
