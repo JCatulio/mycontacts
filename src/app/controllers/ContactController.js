@@ -36,17 +36,18 @@ class ContactController {
       return response.status(400).json({ error: 'Invalid category' });
     }
 
-    const contactExists = await ContactsRepository.findByEmail(email);
-
-    if (contactExists) {
-      return response
-        .status(400)
-        .json({ error: 'This e-mail is already in use' });
+    if (email) {
+      const contactExists = await ContactsRepository.findByEmail(email);
+      if (contactExists) {
+        return response
+          .status(400)
+          .json({ error: 'This e-mail is already in use' });
+      }
     }
 
     const contact = await ContactsRepository.create({
       name,
-      email,
+      email: email || null,
       phone,
       category_id: category_id || null,
     });
